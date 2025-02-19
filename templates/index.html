@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyTodo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body style="background-color: rgb(161, 198, 202);">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid" style="background-color: rgb(161, 198, 202);">
+            <a class="navbar-brand" href="#">MyTodo</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="container mt-4" style="background-color: rgb(225, 154, 237);">
+        <form action="/" method="POST">
+            <h2>Add Your Todos</h2>
+            <div class="mb-3">
+                <label for="title" class="form-label">Todo Title</label>
+                <input type="text" class="form-control" name="title" id="title" required>
+            </div>
+            <div class="mb-3">
+                <label for="desc" class="form-label">Todo Description</label>
+                <input type="text" class="form-control" id="desc" name="desc" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Todo</button>
+        </form>
+    </div>
+
+    <div class="container mt-4" style="background-color: rgb(225, 154, 237);">
+        <h2>My Todos</h2>
+
+        {% if alltodo %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Sr.No</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Time and Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for todo in alltodo %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ todo.title }}</td>
+                    <td>{{ todo.desc }}</td>
+                    <td>{{ todo.date_created.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                    <td>
+                        <a href="/update/{{ todo.sno }}" class="btn btn-outline-success btn-sm">Update</a>
+                        <form action="/delete/{{ todo.sno }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <h1 class="text-center">No Data Found</h1>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
